@@ -7,7 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4513B7181AB76180005649B9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4513B7171AB76180005649B9 /* main.m */; };
+		4513B7211AB7621D005649B9 /* Scanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4513B71F1AB7621D005649B9 /* Scanner.swift */; };
+		4513B7221AB7621D005649B9 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4513B7201AB7621D005649B9 /* Parser.swift */; };
+		4513B7261AB76231005649B9 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4513B7251AB76231005649B9 /* main.swift */; };
+		4513B7281AB76369005649B9 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4513B7271AB76369005649B9 /* Utilities.swift */; };
+		4513B72A1AB763C7005649B9 /* CharacterSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4513B7291AB763C7005649B9 /* CharacterSet.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,7 +28,12 @@
 
 /* Begin PBXFileReference section */
 		4513B7141AB76180005649B9 /* SwiftParsing */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SwiftParsing; sourceTree = BUILT_PRODUCTS_DIR; };
-		4513B7171AB76180005649B9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		4513B71E1AB7621C005649B9 /* SwiftParsing-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SwiftParsing-Bridging-Header.h"; sourceTree = "<group>"; };
+		4513B71F1AB7621D005649B9 /* Scanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scanner.swift; sourceTree = "<group>"; };
+		4513B7201AB7621D005649B9 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		4513B7251AB76231005649B9 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		4513B7271AB76369005649B9 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		4513B7291AB763C7005649B9 /* CharacterSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterSet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +66,12 @@
 		4513B7161AB76180005649B9 /* SwiftParsing */ = {
 			isa = PBXGroup;
 			children = (
-				4513B7171AB76180005649B9 /* main.m */,
+				4513B71E1AB7621C005649B9 /* SwiftParsing-Bridging-Header.h */,
+				4513B71F1AB7621D005649B9 /* Scanner.swift */,
+				4513B7271AB76369005649B9 /* Utilities.swift */,
+				4513B7291AB763C7005649B9 /* CharacterSet.swift */,
+				4513B7201AB7621D005649B9 /* Parser.swift */,
+				4513B7251AB76231005649B9 /* main.swift */,
 			);
 			path = SwiftParsing;
 			sourceTree = "<group>";
@@ -118,7 +132,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4513B7181AB76180005649B9 /* main.m in Sources */,
+				4513B7211AB7621D005649B9 /* Scanner.swift in Sources */,
+				4513B7261AB76231005649B9 /* main.swift in Sources */,
+				4513B7281AB76369005649B9 /* Utilities.swift in Sources */,
+				4513B72A1AB763C7005649B9 /* CharacterSet.swift in Sources */,
+				4513B7221AB7621D005649B9 /* Parser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,14 +223,21 @@
 		4513B71C1AB76180005649B9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SwiftParsing/SwiftParsing-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		4513B71D1AB76180005649B9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SwiftParsing/SwiftParsing-Bridging-Header.h";
 			};
 			name = Release;
 		};
