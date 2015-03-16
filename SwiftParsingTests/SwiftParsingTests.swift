@@ -40,5 +40,17 @@ class SwiftParsingTests: XCTestCase {
             }
         }
     }
+
+    func testExample2() {
+        let result = transforms.parse("translate(0)")
+        if let value = result.value as? [Any] {
+            if let value = value[0] as? [Any] {
+                let type = value[0] as? String
+                XCTAssertEqual(type!, "translate")
+                println(value[1])
+                // TODO now values
+            }
+        }
+    }
 }
 
