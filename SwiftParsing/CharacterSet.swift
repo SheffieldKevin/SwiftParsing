@@ -8,10 +8,10 @@
 
 import Foundation
 
-struct CharacterSet {
-    let set:Set <Character>
+public struct CharacterSet {
+    public let set:Set <Character>
 
-    init(string:String) {
+    public init(string:String) {
         var set = Set <Character> ()
         for character in string {
             set.insert(character)
@@ -19,9 +19,10 @@ struct CharacterSet {
         self.set = set
     }
 
-    func contains(member:Character) -> Bool {
+    public func contains(member:Character) -> Bool {
         return set.contains(member)
     }
 }
 
-let whiteSpaceCharacterSet = CharacterSet(string: " \t\\n\r")
+// TODO: Move
+public let whiteSpaceCharacterSet = CharacterSet(string: " \t\\n\r")

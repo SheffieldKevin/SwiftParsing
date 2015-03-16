@@ -8,15 +8,15 @@
 
 import Foundation
 
-struct Error {
-    let string:String
-    init(_ string:String) {
+public struct Error {
+    public let string:String
+    public init(_ string:String) {
         self.string = string
         println("ERROR: \(string)")
     }
 }
 
-enum ParseResult {
+public enum ParseResult {
   case Err(Error)
   case None
   case Ok(Any)
@@ -25,7 +25,7 @@ enum ParseResult {
 // Value, NonValue, Fail, CriticalError
 // Success, Fail, Error
 
-extension ParseResult {
+public extension ParseResult {
     var isOK: Bool {
         get {
             switch self {
@@ -51,7 +51,7 @@ extension ParseResult {
 }
 
 extension ParseResult: Printable {
-    var description: String {
+    public var description: String {
         get {
             switch self {
                 case .Err(let value):
@@ -67,31 +67,31 @@ extension ParseResult: Printable {
 
 // MARK: Protocols
 
-protocol ContainerElement {
+public protocol ContainerElement {
     var subelements:[Element] { get }
 }
 
 // MARK: Element
 
-class Element {
-    init() {
+public class Element {
+    public init() {
     }
 
-    var strip:Bool = false
-    var flatten:Bool = false
-    var converter:(Any -> Any?)?
+    public var strip:Bool = false
+    public var flatten:Bool = false
+    public var converter:(Any -> Any?)?
 
-    final func parse(string:String) -> ParseResult {
+    public final func parse(string:String) -> ParseResult {
         var scanner = Scanner(string: string)
         return parse(scanner)
     }
 
-    func parse(scanner:Scanner) -> ParseResult {
+    public func parse(scanner:Scanner) -> ParseResult {
         return .Err(Error("Fail"))
     }
 }
 
-extension Element {
+public extension Element {
     func makeStripped() -> Element {
         strip = true
         return self
@@ -111,21 +111,21 @@ extension Element {
 
 // MARK: Literal
 
-class Literal: Element {
-    let value:String
+public class Literal: Element {
+    public let value:String
 
-    init(_ value:String) {
+    public init(_ value:String) {
         self.value = value
         super.init()
     }
 
-    override func parse(scanner:Scanner) -> ParseResult {
+    public override func parse(scanner:Scanner) -> ParseResult {
         return scanner.scanString(value) ? .Ok(self.value) : .None
     }
 }
 
 extension Literal: Printable {
-    var description:String {
+    public var description:String {
         get {
             return "Literal(\"\(value)\")"
         }
@@ -135,14 +135,14 @@ extension Literal: Printable {
 
 // MARK: Value
 
-class Value: Element {
-    let scan:((scanner:Scanner) -> Any?)
+public class Value: Element {
+    public let scan:((scanner:Scanner) -> Any?)
 
-    init(scan:((scanner:Scanner) -> Any?)) {
+    public init(scan:((scanner:Scanner) -> Any?)) {
         self.scan = scan
     }
 
-    override func parse(scanner:Scanner) -> ParseResult {
+    public override func parse(scanner:Scanner) -> ParseResult {
         if let result = scan(scanner:scanner) {
             return .Ok(result)
         }
@@ -153,40 +153,39 @@ class Value: Element {
 }
 
 extension Value: Printable {
-    var description:String {
+    public var description:String {
         get {
             return "DoubleValue()"
         }
     }
 }
 
-let cgFloatValue = Value() {
+public let cgFloatValue = Value() {
     (scanner:Scanner) -> Any? in
     return scanner.scanCGFloat()
 }
 
-let doubleValue = Value() {
+public let doubleValue = Value() {
     (scanner:Scanner) -> Any? in
     return scanner.scanDouble()
 }
 
 // MARK: Range
 
-
 // TODO: rename
-class RangeOf: Element {
-    let min:Int?
-    let max:Int?
-    let subelement:Element
+public class RangeOf: Element {
+    public let min:Int?
+    public let max:Int?
+    public let subelement:Element
 
-    init(min:Int?, max:Int?, subelement:Element) {
+    public init(min:Int?, max:Int?, subelement:Element) {
         self.min = min
         self.max = max
         self.subelement = subelement
         super.init()
     }
 
-    override func parse(scanner:Scanner) -> ParseResult {
+    public override func parse(scanner:Scanner) -> ParseResult {
         var compoundResult:[Any] = []
 
         loop: while true {
@@ -227,7 +226,7 @@ class RangeOf: Element {
 }
 
 extension RangeOf: Printable {
-    var description:String {
+    public var description:String {
         get {
             return "RangeOf(\"\(subelement)\")"
         }
@@ -235,35 +234,35 @@ extension RangeOf: Printable {
 }
 
 extension RangeOf: ContainerElement {
-    var subelements:[Element] {
+    public var subelements:[Element] {
         get {
             return [subelement]
         }
     }
 }
 
-func zeroOrOne(subelement:Element) -> RangeOf {
+public func zeroOrOne(subelement:Element) -> RangeOf {
     let rangeOf = RangeOf(min:0, max:1, subelement:subelement)
     rangeOf.flatten = true
     return rangeOf
 }
 
-func oneOrMore(subelement:Element) -> RangeOf {
+public func oneOrMore(subelement:Element) -> RangeOf {
     let rangeOf = RangeOf(min:1, max:nil, subelement:subelement)
     return rangeOf
 }
 
 // MARK: OneOf
 
-class OneOf: Element {
-    let subelements:[Element]
+public class OneOf: Element {
+    public let subelements:[Element]
 
-    init(_ subelements:[Element]) {
+    public init(_ subelements:[Element]) {
         self.subelements = subelements
         super.init()
     }
 
-    override func parse(scanner:Scanner) -> ParseResult {
+    public override func parse(scanner:Scanner) -> ParseResult {
         for element in subelements {
             let result = element.parse(scanner)
             if result.isOK {
@@ -275,7 +274,7 @@ class OneOf: Element {
 }
 
 extension OneOf: Printable {
-    var description:String {
+    public var description:String {
         get {
             let elementDescriptions = subelements.map() { return toString($0) }
             return "OneOf(\"\(elementDescriptions)\")"
@@ -288,16 +287,16 @@ extension OneOf: ContainerElement {
 
 // MARK: Compound
 
-class Compound: Element {
-    let subelements:[Element]
+public class Compound: Element {
+    public let subelements:[Element]
 
-    init(_ subelements:[Element]) {
+    public init(_ subelements:[Element]) {
         assert(subelements.count > 0)
         self.subelements = subelements
         super.init()
     }
 
-    override func parse(scanner:Scanner) -> ParseResult {
+    public override func parse(scanner:Scanner) -> ParseResult {
         var compoundResult:[Any] = []
         loop: for element in subelements {
             if scanner.atEnd {
@@ -348,7 +347,7 @@ class Compound: Element {
 }
 
 extension Compound: Printable {
-    var description:String {
+    public var description:String {
         get {
             let elementDescriptions = subelements.map() { return toString($0) }
             return "Compound(\"\(elementDescriptions)\")"
@@ -361,19 +360,19 @@ extension Compound: ContainerElement {
 
 // MARK: AtEnd
 
-class AtEnd: Element {
+public class AtEnd: Element {
 
-    override func parse(scanner:Scanner) -> ParseResult {
+    public override func parse(scanner:Scanner) -> ParseResult {
         return scanner.atEnd ? .Ok(Void) : .Err(Error("Not at end"))
     }
 
 }
 
-let atEnd = AtEnd()
+public let atEnd = AtEnd()
 
 // MARK: Covenience operators
 
-func | (lhs:Element, rhs:Element) -> OneOf {
+public func | (lhs:Element, rhs:Element) -> OneOf {
     let result:OneOf
     if let lhs = lhs as? OneOf, let rhs = rhs as? OneOf {
         result = OneOf(lhs.subelements + rhs.subelements )
@@ -390,7 +389,7 @@ func | (lhs:Element, rhs:Element) -> OneOf {
     return result
 }
 
-func + (lhs:Element, rhs:Element) -> Compound {
+public func + (lhs:Element, rhs:Element) -> Compound {
     let result:Compound
     if let lhs = lhs as? Compound, let rhs = rhs as? Compound {
         result = Compound(lhs.subelements + rhs.subelements )

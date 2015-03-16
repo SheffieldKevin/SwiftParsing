@@ -2,24 +2,24 @@
 
 import Foundation
 
-class Scanner {
-    let string:String
-    var location:String.Index
-    var skippedCharacters:CharacterSet?
+public class Scanner {
+    public let string:String
+    public var location:String.Index
+    public var skippedCharacters:CharacterSet?
 
-    init(string:String) {
+    public init(string:String) {
         self.string = string
         location = string.startIndex
         skippedCharacters = whiteSpaceCharacterSet
     }
 
-    var atEnd:Bool {
+    public var atEnd:Bool {
         get {
             return location == string.endIndex
         }
     }
 
-    func try(@noescape closure:Void -> Bool) -> Bool {
+    public func try(@noescape closure:Void -> Bool) -> Bool {
         let savedLocation = location
         let result = closure()
         if result == false {
@@ -28,7 +28,7 @@ class Scanner {
         return result
     }
 
-    func try<T> (@noescape closure:Void -> T?) -> T? {
+    public func try<T> (@noescape closure:Void -> T?) -> T? {
         let savedLocation = location
         let result = closure()
         if result == nil {
@@ -37,14 +37,14 @@ class Scanner {
         return result
     }
 
-    func suppressSkip(@noescape closure:Void -> Void) {
+    public func suppressSkip(@noescape closure:Void -> Void) {
         let savedSkippedCharacters = skippedCharacters
         skippedCharacters = nil
         closure()
         skippedCharacters = savedSkippedCharacters
     }
 
-    func next() -> Character? {
+    public func next() -> Character? {
         if location >= string.endIndex {
             return nil
         }
@@ -53,12 +53,12 @@ class Scanner {
         return value
     }
 
-    func back() {
+    public func back() {
         assert(location != string.startIndex)
         location = advance(location, -1)
     }
 
-    func skip() {
+    public func skip() {
         if let skippedCharacters = skippedCharacters {
             while true {
                 if let C = next() {
@@ -74,7 +74,7 @@ class Scanner {
         }
     }
 
-    func scanString(string:String) -> Bool {
+    public func scanString(string:String) -> Bool {
         assert(string != "")
         let result = try() {
             skip()
@@ -96,7 +96,7 @@ class Scanner {
         return result
     }
 
-    func scanCharacter(character:Character) -> Bool {
+    public func scanCharacter(character:Character) -> Bool {
         return try () {
             skip()
             if character == next() {
@@ -106,7 +106,7 @@ class Scanner {
         }
     }
 
-    func scanCharacterFromSet(characterSet:CharacterSet) -> Character? {
+    public func scanCharacterFromSet(characterSet:CharacterSet) -> Character? {
         let result:Character? = try() {
             skip()
             if let character = next() {
@@ -119,7 +119,7 @@ class Scanner {
         return result
     }
 
-    func scanCharactersFromSet(characterSet:CharacterSet) -> String? {
+    public func scanCharactersFromSet(characterSet:CharacterSet) -> String? {
         let result:String? = try() {
             skip()
             let start = location
@@ -144,7 +144,7 @@ class Scanner {
         return result
     }
 
-    func scanDouble() -> Double? {
+    public func scanDouble() -> Double? {
         let result:Double? = try() {
             skip()
             let start = location
@@ -160,7 +160,7 @@ class Scanner {
 }
 
 extension Scanner: Printable {
-    var description: String {
+    public var description: String {
         get {
             let prefix = string.substringToIndex(location)
             let suffix = string.substringFromIndex(location)
@@ -169,7 +169,7 @@ extension Scanner: Printable {
     }
 }
 
-extension Scanner {
+public extension Scanner {
     func scanCGFloat() -> CGFloat? {
         if let double = scanDouble() {
             return CGFloat(double)
