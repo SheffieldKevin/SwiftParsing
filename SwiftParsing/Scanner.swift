@@ -1,6 +1,7 @@
 // Playground - noun: a place where people can play
 
 import Foundation
+import SwiftUtilities
 
 public class Scanner {
     public let string:String
@@ -18,6 +19,13 @@ public class Scanner {
             return location == string.endIndex
         }
     }
+
+    public var remaining:String {
+        get {
+            return string[location..<string.endIndex]
+        }
+    }
+
 
     public func try(@noescape closure:Void -> Bool) -> Bool {
         let savedLocation = location
@@ -157,6 +165,23 @@ public class Scanner {
         }
         return result
     }
+
+    public func scanRegularExpression(string:String) -> String? {
+        let result:String? = try() {
+            skip()
+
+            let expression = RegularExpression(string)
+            let match = expression.match(remaining)
+
+            let result = match?.groups[0].string
+            location = location.advanc
+
+            return nil
+        }
+        return result
+    }
+
+
 }
 
 extension Scanner: Printable {
