@@ -13,7 +13,7 @@ public struct CharacterSet {
 
     public init(string:String) {
         var set = Set <Character> ()
-        for character in string {
+        for character in string.characters {
             set.insert(character)
         }
         self.set = set

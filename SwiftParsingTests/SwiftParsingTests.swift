@@ -47,7 +47,7 @@ class SwiftParsingTests: XCTestCase {
             if let value = value[0] as? [Any] {
                 let type = value[0] as? String
                 XCTAssertEqual(type!, "translate")
-                println(value[1])
+                print(value[1])
                 // TODO now values
             }
         }

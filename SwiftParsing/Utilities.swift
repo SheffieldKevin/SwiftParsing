@@ -8,16 +8,17 @@
 
 import Foundation
 
+import SwiftUtilities
 
 extension Double {
     static let formatter = NSNumberFormatter()
-    static func fromString(string:String) -> Double? {
+    static func fromString(string:String) throws -> Double {
         let number = formatter.numberFromString(string)
         if let number = number {
             return number.doubleValue
         }
         else {
-            return nil
+            throw SwiftUtilities.Error.generic("Could not convert into double")
         }
     }
 }
@@ -30,23 +31,22 @@ func getChildren(element:Element) -> [Element]? {
 }
 
 func dump <T> (element:T, depth:Int = 0, children:T -> [T]?) {
-    let description = reflect(element).summary
-//    let description = toString(element)
+    let description = String(element)
 
-    let spaces = reduce(0..<depth, "") {
+    let spaces = (0..<depth).reduce("") {
         (U:String, index:Int) -> String in
         return U + "  "
         }
-    println("\(spaces)\(description)")
+    print("\(spaces)\(description)")
     if let childElements = children(element) {
         for child in childElements {
-            dump(child, depth:depth + 1, children)
+            dump(child, depth:depth + 1, children: children)
         }
     }
 }
 
 extension Element {
     func dump() {
-        SwiftParsing.dump(self, depth: 0, getChildren)
+        SwiftParsing.dump(self, depth: 0, children: getChildren)
     }
 }

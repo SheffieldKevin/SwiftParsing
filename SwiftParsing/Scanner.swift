@@ -27,7 +27,7 @@ public class Scanner {
     }
 
 
-    public func try(@noescape closure:Void -> Bool) -> Bool {
+    public func `try`(@noescape closure:Void -> Bool) -> Bool {
         let savedLocation = location
         let result = closure()
         if result == false {
@@ -36,7 +36,7 @@ public class Scanner {
         return result
     }
 
-    public func try<T> (@noescape closure:Void -> T?) -> T? {
+    public func `try`<T> (@noescape closure:Void -> T?) -> T? {
         let savedLocation = location
         let result = closure()
         if result == nil {
@@ -57,13 +57,13 @@ public class Scanner {
             return nil
         }
         let value = string[location]
-        location = advance(location, 1)
+        location = location.advancedBy(1)
         return value
     }
 
     public func back() {
         assert(location != string.startIndex)
-        location = advance(location, -1)
+        location = location.advancedBy(-1)
     }
 
     public func skip() {
@@ -83,29 +83,30 @@ public class Scanner {
     }
 
     public func scanString(string:String) -> Bool {
-        assert(string != "")
-        let result = try() {
-            skip()
-            var searchStringGenerator = string.generate()
-            while true {
-                let searchStringGeneratorValue = searchStringGenerator.next()
-                if searchStringGeneratorValue == nil {
-                    return true
-                }
-                let stringGeneratorValue = next()
-                if stringGeneratorValue == nil {
-                    return false
-                }
-                if searchStringGeneratorValue != stringGeneratorValue {
-                    return false
-                }
-            }
-        }
-        return result
+        return false
+//        assert(string != "")
+//        let result = `try`() {
+//            skip()
+//            var searchStringGenerator = string.generate()
+//            while true {
+//                let searchStringGeneratorValue = searchStringGenerator.next()
+//                if searchStringGeneratorValue == nil {
+//                    return true
+//                }
+//                let stringGeneratorValue = next()
+//                if stringGeneratorValue == nil {
+//                    return false
+//                }
+//                if searchStringGeneratorValue != stringGeneratorValue {
+//                    return false
+//                }
+//            }
+//        }
+//        return result
     }
 
     public func scanCharacter(character:Character) -> Bool {
-        return try () {
+        return `try` () {
             skip()
             if character == next() {
                 return true
@@ -115,7 +116,7 @@ public class Scanner {
     }
 
     public func scanCharacterFromSet(characterSet:CharacterSet) -> Character? {
-        let result:Character? = try() {
+        let result:Character? = `try`() {
             skip()
             if let character = next() {
                 if characterSet.contains(character) {
@@ -128,7 +129,7 @@ public class Scanner {
     }
 
     public func scanCharactersFromSet(characterSet:CharacterSet) -> String? {
-        let result:String? = try() {
+        let result:String? = `try`() {
             skip()
             let start = location
             while true {
@@ -142,7 +143,7 @@ public class Scanner {
                     break
                 }
             }
-            if distance(start, location) == 0 {
+            if start.distanceTo(location) == 0 {
                 return nil
             }
             else {
@@ -153,11 +154,10 @@ public class Scanner {
     }
 
     public func scanDouble() -> Double? {
-        let result:Double? = try() {
+        let result:Double? = `try`() {
             skip()
-            let start = location
             if let string = scanCharactersFromSet(CharacterSet(string: "0123456789Ee.-")) {
-                return Double.fromString(string)
+                return try? Double.fromString(string)
             }
             else {
                 return nil
@@ -167,24 +167,25 @@ public class Scanner {
     }
 
     public func scanRegularExpression(string:String) -> String? {
-        let result:String? = try() {
-            skip()
-
-            let expression = RegularExpression(string)
-            let match = expression.match(remaining)
-
-            let result = match?.groups[0].string
-            location = location.advanc
-
-            return nil
-        }
-        return result
+        return nil
+//        let result:String? = `try`() {
+//            skip()
+//
+//            let expression = try! RegularExpression(string)
+//            let match = expression.match(remaining)
+//
+//            let result = match?.strings[0]
+//            location = location.advancedBy(<#T##n: Self.Distance##Self.Distance#>)
+//
+//            return nil
+//        }
+//        return result
     }
 
 
 }
 
-extension Scanner: Printable {
+extension Scanner: CustomStringConvertible {
     public var description: String {
         get {
             let prefix = string.substringToIndex(location)

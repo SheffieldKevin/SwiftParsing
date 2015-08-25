@@ -12,7 +12,7 @@ public struct Error {
     public let string:String
     public init(_ string:String) {
         self.string = string
-        println("ERROR: \(string)")
+        print("ERROR: \(string)")
     }
 }
 
@@ -50,7 +50,7 @@ public extension ParseResult {
     }
 }
 
-extension ParseResult: Printable {
+extension ParseResult: CustomStringConvertible {
     public var description: String {
         get {
             switch self {
@@ -82,7 +82,7 @@ public class Element {
     public var converter:(Any -> Any?)?
 
     public final func parse(string:String) -> ParseResult {
-        var scanner = Scanner(string: string)
+        let scanner = Scanner(string: string)
         return parse(scanner)
     }
 
@@ -124,7 +124,7 @@ public class Literal: Element {
     }
 }
 
-extension Literal: Printable {
+extension Literal: CustomStringConvertible {
     public var description:String {
         get {
             return "Literal(\"\(value)\")"
@@ -152,7 +152,7 @@ public class Value: Element {
     }
 }
 
-extension Value: Printable {
+extension Value: CustomStringConvertible {
     public var description:String {
         get {
             return "DoubleValue()"
@@ -225,7 +225,7 @@ public class RangeOf: Element {
     }
 }
 
-extension RangeOf: Printable {
+extension RangeOf: CustomStringConvertible {
     public var description:String {
         get {
             return "RangeOf(\"\(subelement)\")"
@@ -273,10 +273,10 @@ public class OneOf: Element {
     }
 }
 
-extension OneOf: Printable {
+extension OneOf: CustomStringConvertible {
     public var description:String {
         get {
-            let elementDescriptions = subelements.map() { return toString($0) }
+            let elementDescriptions = subelements.map() { return String($0) }
             return "OneOf(\"\(elementDescriptions)\")"
         }
     }
@@ -346,10 +346,10 @@ public class Compound: Element {
     }
 }
 
-extension Compound: Printable {
+extension Compound: CustomStringConvertible {
     public var description:String {
         get {
-            let elementDescriptions = subelements.map() { return toString($0) }
+            let elementDescriptions = subelements.map() { return String($0) }
             return "Compound(\"\(elementDescriptions)\")"
         }
     }
