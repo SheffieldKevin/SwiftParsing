@@ -3,7 +3,8 @@
 import Foundation
 import SwiftUtilities
 
-public class Scanner {
+public class Scanner: GeneratorType {
+    public typealias Element = Character
     public let string:String
     public var location:String.Index
     public var skippedCharacters:CharacterSet?
@@ -57,31 +58,29 @@ public class Scanner {
         return value
     }
 
-    public func back() {
-        assert(location != string.startIndex)
+    public func back() throws {
+        guard location != string.startIndex else {
+            throw SwiftUtilities.Error.generic("Underflow")
+        }
         location = location.advancedBy(-1)
     }
 
     public func skip() {
-        if let skippedCharacters = skippedCharacters {
-            while true {
-                if let C = next() {
-                    if skippedCharacters.contains(C) == false {
-                        back()
-                        break
-                    }
-                }
-                else {
-                    break
-                }
+        guard let skippedCharacters = skippedCharacters else {
+            return
+        }
+        for C in self {
+            if skippedCharacters.contains(C) == false {
+                try! back()
+                break
             }
         }
     }
 
     public func scanString(string:String) -> Bool {
-        assert(string != "")
+        assert(string.isEmpty == false)
 
-        let result = with() {
+        return with() {
             skip()
             var searchStringGenerator = string.characters.generate()
             while true {
@@ -91,14 +90,14 @@ public class Scanner {
                 }
                 let stringGeneratorValue = next()
                 if stringGeneratorValue == nil {
-                    return false
+                    break
                 }
                 if searchStringGeneratorValue != stringGeneratorValue {
-                    return false
+                    break
                 }
             }
+            return false
         }
-        return result
     }
 
     public func scanCharacter(character:Character) -> Bool {
@@ -109,7 +108,7 @@ public class Scanner {
     }
 
     public func scanCharacterFromSet(characterSet:CharacterSet) -> Character? {
-        let result:Character? = with() {
+        return with() {
             skip()
             if let character = next() {
                 if characterSet.contains(character) {
@@ -118,46 +117,42 @@ public class Scanner {
             }
             return nil
         }
-        return result
     }
 
     public func scanCharactersFromSet(characterSet:CharacterSet) -> String? {
-        let result:String? = with() {
+        return with() {
             skip()
             let start = location
-            while true {
-                if let C = next() {
-                    if characterSet.contains(C) == false {
-                        back()
-                        break
-                    }
-                }
-                else {
+            for C in self {
+                if characterSet.contains(C) == false {
+                    try! back()
                     break
                 }
             }
-            if start.distanceTo(location) == 0 {
+            guard start.distanceTo(location) > 0 else {
                 return nil
             }
-            else {
-                return string.substringWithRange(start..<location)
-            }
+
+            return string.substringWithRange(start..<location)
         }
-        return result
     }
 
     public func scanDouble() -> Double? {
-        let result:Double? = with() {
+        return with() {
             skip()
-            if let string = scanCharactersFromSet(CharacterSet(string: "0123456789Ee.-")) {
-                return try? Double.fromString(string)
-            }
-            else {
+            guard let string = scanCharactersFromSet(CharacterSet(string: "0123456789Ee.-")) else {
                 return nil
             }
+            return try? Double.fromString(string)
         }
-        return result
     }
+
+//    public func scan <T:FloatingPointType> () -> T? {
+//        guard let double = scanDouble() else {
+//            return nil
+//        }
+//        return T(double)
+//    }
 
     public func scan(expression:RegularExpression) -> String? {
         return with() {
@@ -187,11 +182,16 @@ extension Scanner: CustomStringConvertible {
 
 public extension Scanner {
     func scanCGFloat() -> CGFloat? {
-        if let double = scanDouble() {
-            return CGFloat(double)
-        }
-        else {
+        guard let double = scanDouble() else {
             return nil
         }
+        return CGFloat(double)
+    }
+}
+
+extension Scanner: SequenceType {
+    public typealias Generator = Scanner
+    public func generate() -> Generator {
+        return self
     }
 }

@@ -30,23 +30,3 @@ func getChildren(element:Element) -> [Element]? {
     return nil
 }
 
-func dump <T> (element:T, depth:Int = 0, children:T -> [T]?) {
-    let description = String(element)
-
-    let spaces = (0..<depth).reduce("") {
-        (U:String, index:Int) -> String in
-        return U + "  "
-        }
-    print("\(spaces)\(description)")
-    if let childElements = children(element) {
-        for child in childElements {
-            dump(child, depth:depth + 1, children: children)
-        }
-    }
-}
-
-extension Element {
-    func dump() {
-        SwiftParsing.dump(self, depth: 0, children: getChildren)
-    }
-}
