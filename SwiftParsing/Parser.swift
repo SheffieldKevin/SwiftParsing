@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Error {
+public struct Error: ErrorType {
     public let string:String
     public init(_ string:String) {
         self.string = string
@@ -17,7 +17,6 @@ public struct Error {
 }
 
 public enum ParseResult {
-  case Err(Error)
   case None
   case Ok(Any)
 }
@@ -29,8 +28,6 @@ public extension ParseResult {
     var isOK: Bool {
         get {
             switch self {
-                case .Err:
-                    return false
                 case .Ok:
                     return true
                 case .None:
@@ -54,8 +51,6 @@ extension ParseResult: CustomStringConvertible {
     public var description: String {
         get {
             switch self {
-                case .Err(let value):
-                    return "ERROR: \(value)"
                 case .Ok(let value):
                     return "VAL: \(value)"
                 case .None:
@@ -81,13 +76,13 @@ public class Element {
     public var flatten:Bool = false
     public var converter:(Any -> Any?)?
 
-    public final func parse(string:String) -> ParseResult {
+    public final func parse(string:String) throws -> ParseResult {
         let scanner = Scanner(string: string)
-        return parse(scanner)
+        return try parse(scanner)
     }
 
-    public func parse(scanner:Scanner) -> ParseResult {
-        return .Err(Error("Fail"))
+    public func parse(scanner:Scanner) throws -> ParseResult {
+        throw Error("Fail")
     }
 }
 
@@ -185,7 +180,7 @@ public class RangeOf: Element {
         super.init()
     }
 
-    public override func parse(scanner:Scanner) -> ParseResult {
+    public override func parse(scanner:Scanner) throws -> ParseResult {
         var compoundResult:[Any] = []
 
         loop: while true {
@@ -194,19 +189,17 @@ public class RangeOf: Element {
                 break loop
             }
 
-            let result = subelement.parse(scanner)
+            let result = try subelement.parse(scanner)
             switch result {
                 case .Ok(let value):
                     compoundResult.append(value)
-                case .Err(let value):
-                    return result
                 case .None:
                     break loop
             }
         }
 
         if let min = min where compoundResult.count < min {
-            return .Err(Error("Could not scan enough"))
+            throw Error("Could not scan enough")
         }
 
         if flatten {
@@ -217,7 +210,7 @@ public class RangeOf: Element {
                 return .Ok(Void)
             }
             else {
-                return .Err(Error("Could not flatten"))
+                throw Error("Could not flatten")
             }
         }
 
@@ -262,9 +255,9 @@ public class OneOf: Element {
         super.init()
     }
 
-    public override func parse(scanner:Scanner) -> ParseResult {
+    public override func parse(scanner:Scanner) throws -> ParseResult {
         for element in subelements {
-            let result = element.parse(scanner)
+            let result = try element.parse(scanner)
             if result.isOK {
                 return result
             }
@@ -296,21 +289,18 @@ public class Compound: Element {
         super.init()
     }
 
-    public override func parse(scanner:Scanner) -> ParseResult {
+    public override func parse(scanner:Scanner) throws -> ParseResult {
         var compoundResult:[Any] = []
         loop: for element in subelements {
             if scanner.atEnd {
                 break
             }
-            let result = element.parse(scanner)
+            let result = try element.parse(scanner)
             switch result {
                 case .Ok(let value):
                     if element.strip == false {
                         compoundResult.append(value)
                     }
-
-                case .Err(let value):
-                    return result
                 case .None:
                     break loop
             }
@@ -326,7 +316,7 @@ public class Compound: Element {
                 result = .Ok(compoundResult[0])
             }
             else {
-                result = .Err(Error("couldn't flatten"))
+                throw Error("couldn't flatten")
             }
         }
         else {
@@ -338,7 +328,7 @@ public class Compound: Element {
                 result = .Ok(value)
             }
             else {
-                result = .Err(Error("Failed to convert"))
+                throw Error("Failed to convert")
             }
         }
 
@@ -362,8 +352,13 @@ extension Compound: ContainerElement {
 
 public class AtEnd: Element {
 
-    public override func parse(scanner:Scanner) -> ParseResult {
-        return scanner.atEnd ? .Ok(Void) : .Err(Error("Not at end"))
+    public override func parse(scanner:Scanner) throws -> ParseResult {
+        if scanner.atEnd {
+            return .Ok(Void)
+        }
+        else {
+            throw Error("Not at end")
+        }
     }
 
 }

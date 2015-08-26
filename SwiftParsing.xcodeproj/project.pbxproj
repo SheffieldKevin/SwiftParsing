@@ -16,6 +16,7 @@
 		4565656D1AB76A0F004E982C /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456565691AB76A0F004E982C /* Parser.swift */; };
 		4565656E1AB76A0F004E982C /* Scanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4565656A1AB76A0F004E982C /* Scanner.swift */; };
 		4565656F1AB76A0F004E982C /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4565656B1AB76A0F004E982C /* Utilities.swift */; };
+		4588CF241B8D7C3600B1C301 /* ScannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4588CF231B8D7C3600B1C301 /* ScannerTests.swift */; settings = {ASSET_TAGS = (); }; };
 		45D772B61AC08474002AF6F7 /* SwiftUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45D772B51AC08474002AF6F7 /* SwiftUtilities.framework */; };
 /* End PBXBuildFile section */
 
@@ -53,6 +54,7 @@
 		456565691AB76A0F004E982C /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		4565656A1AB76A0F004E982C /* Scanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scanner.swift; sourceTree = "<group>"; };
 		4565656B1AB76A0F004E982C /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		4588CF231B8D7C3600B1C301 /* ScannerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannerTests.swift; sourceTree = "<group>"; };
 		45D772B51AC08474002AF6F7 /* SwiftUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUtilities.framework; path = Carthage/Build/Mac/SwiftUtilities.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -80,7 +82,6 @@
 		4513B70B1AB76180005649B9 = {
 			isa = PBXGroup;
 			children = (
-				45D772B81AC08496002AF6F7 /* Playgrounds */,
 				4565654C1AB769E0004E982C /* SwiftParsing */,
 				456565591AB769E0004E982C /* SwiftParsingTests */,
 				45D772B71AC08479002AF6F7 /* Frameworks */,
@@ -122,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				4565655C1AB769E0004E982C /* SwiftParsingTests.swift */,
+				4588CF231B8D7C3600B1C301 /* ScannerTests.swift */,
 				4565655A1AB769E0004E982C /* Supporting Files */,
 			);
 			path = SwiftParsingTests;
@@ -141,13 +143,6 @@
 				45D772B51AC08474002AF6F7 /* SwiftUtilities.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		45D772B81AC08496002AF6F7 /* Playgrounds */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Playgrounds;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -271,6 +266,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4588CF241B8D7C3600B1C301 /* ScannerTests.swift in Sources */,
 				4565655D1AB769E0004E982C /* SwiftParsingTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

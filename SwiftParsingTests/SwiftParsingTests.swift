@@ -31,7 +31,7 @@ let transforms = oneOrMore((transform + OPT_COMMA).makeFlattened())
 class SwiftParsingTests: XCTestCase {
     
     func testExample() {
-        let result = transforms.parse("translate(0,0)")
+        let result = try! transforms.parse("translate(0,0)")
         if let value = result.value as? [Any] {
             if let value = value[0] as? [Any] {
                 let type = value[0] as? String
@@ -42,7 +42,7 @@ class SwiftParsingTests: XCTestCase {
     }
 
     func testExample2() {
-        let result = transforms.parse("translate(0)")
+        let result = try! transforms.parse("translate(0)")
         if let value = result.value as? [Any] {
             if let value = value[0] as? [Any] {
                 let type = value[0] as? String
