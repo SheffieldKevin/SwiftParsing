@@ -26,36 +26,30 @@ public enum ParseResult {
 
 public extension ParseResult {
     var isOK: Bool {
-        get {
-            switch self {
-                case .Ok:
-                    return true
-                case .None:
-                    return false
-            }
+        switch self {
+            case .Ok:
+                return true
+            case .None:
+                return false
         }
     }
     var value: Any? {
-        get {
-            switch self {
-                case .Ok(let value):
-                    return value
-                default:
-                    return nil
-            }
+        switch self {
+            case .Ok(let value):
+                return value
+            default:
+                return nil
         }
     }
 }
 
 extension ParseResult: CustomStringConvertible {
     public var description: String {
-        get {
-            switch self {
-                case .Ok(let value):
-                    return "VAL: \(value)"
-                case .None:
-                    return "NONE"
-            }
+        switch self {
+            case .Ok(let value):
+                return "VAL: \(value)"
+            case .None:
+                return "NONE"
         }
     }
 }
@@ -121,9 +115,7 @@ public class Literal: Element {
 
 extension Literal: CustomStringConvertible {
     public var description:String {
-        get {
-            return "Literal(\"\(value)\")"
-        }
+        return "Literal(\"\(value)\")"
     }
 }
 
@@ -149,9 +141,7 @@ public class Value: Element {
 
 extension Value: CustomStringConvertible {
     public var description:String {
-        get {
-            return "DoubleValue()"
-        }
+        return "DoubleValue()"
     }
 }
 
@@ -220,17 +210,13 @@ public class RangeOf: Element {
 
 extension RangeOf: CustomStringConvertible {
     public var description:String {
-        get {
-            return "RangeOf(\"\(subelement)\")"
-        }
+        return "RangeOf(\"\(subelement)\")"
     }
 }
 
 extension RangeOf: ContainerElement {
     public var subelements:[Element] {
-        get {
-            return [subelement]
-        }
+        return [subelement]
     }
 }
 
@@ -268,10 +254,8 @@ public class OneOf: Element {
 
 extension OneOf: CustomStringConvertible {
     public var description:String {
-        get {
-            let elementDescriptions = subelements.map() { return String($0) }
-            return "OneOf(\"\(elementDescriptions)\")"
-        }
+        let elementDescriptions = subelements.map() { return String($0) }
+        return "OneOf(\"\(elementDescriptions)\")"
     }
 }
 
@@ -338,10 +322,8 @@ public class Compound: Element {
 
 extension Compound: CustomStringConvertible {
     public var description:String {
-        get {
-            let elementDescriptions = subelements.map() { return String($0) }
-            return "Compound(\"\(elementDescriptions)\")"
-        }
+        let elementDescriptions = subelements.map() { return String($0) }
+        return "Compound(\"\(elementDescriptions)\")"
     }
 }
 

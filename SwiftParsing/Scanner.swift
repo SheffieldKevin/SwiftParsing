@@ -176,17 +176,13 @@ public class Scanner {
         let expression = try RegularExpression(string)
         return scan(expression)
     }
-
-
 }
 
 extension Scanner: CustomStringConvertible {
     public var description: String {
-        get {
-            let prefix = string.substringToIndex(location)
-            let suffix = string.substringFromIndex(location)
-            return "[\(prefix)] <|> [\(suffix)]"
-        }
+        let prefix = string.substringToIndex(location)
+        let suffix = string.substringFromIndex(location)
+        return "[\(prefix)] <|> [\(suffix)]"
     }
 }
 
