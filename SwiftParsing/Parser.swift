@@ -12,7 +12,6 @@ public struct Error: ErrorType {
     public let string:String
     public init(_ string:String) {
         self.string = string
-        print("ERROR: \(string)")
     }
 }
 
