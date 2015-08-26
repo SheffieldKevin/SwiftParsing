@@ -180,18 +180,18 @@ extension Scanner: CustomStringConvertible {
     }
 }
 
+extension Scanner: SequenceType {
+    public typealias Generator = Scanner
+    public func generate() -> Generator {
+        return self
+    }
+}
+
 public extension Scanner {
     func scanCGFloat() -> CGFloat? {
         guard let double = scanDouble() else {
             return nil
         }
         return CGFloat(double)
-    }
-}
-
-extension Scanner: SequenceType {
-    public typealias Generator = Scanner
-    public func generate() -> Generator {
-        return self
     }
 }

@@ -75,7 +75,7 @@ public class Element {
     }
 
     public func parse(scanner:Scanner) throws -> ParseResult {
-        throw Error("Fail")
+        preconditionFailure("Implement in subclass")
     }
 }
 
@@ -107,7 +107,7 @@ public class Literal: Element {
         super.init()
     }
 
-    public override func parse(scanner:Scanner) -> ParseResult {
+    public override func parse(scanner:Scanner) throws -> ParseResult {
         return scanner.scanString(value) ? .Ok(self.value) : .None
     }
 }
@@ -128,7 +128,7 @@ public class Value: Element {
         self.scan = scan
     }
 
-    public override func parse(scanner:Scanner) -> ParseResult {
+    public override func parse(scanner:Scanner) throws -> ParseResult {
         if let result = scan(scanner:scanner) {
             return .Ok(result)
         }
