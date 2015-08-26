@@ -19,6 +19,30 @@ class ScannerTests: XCTestCase {
         XCTAssert(scanner.atEnd == true)
     }
 
+    func testScanCharSet() {
+        let scanner = Scanner(string: "01234")
+        XCTAssert(scanner.scanCharactersFromSet(CharacterSet(string: "0123456789")) == "01234")
+        XCTAssert(scanner.atEnd == true)
+    }
+
+    func testBadScanCharSet() {
+        let scanner = Scanner(string: "abcde")
+        XCTAssert(scanner.scanCharactersFromSet(CharacterSet(string: "0123456789")) == nil)
+        XCTAssert(scanner.atEnd == false)
+    }
+
+    func testScanSingleCharSet() {
+        let scanner = Scanner(string: "0")
+        XCTAssert(scanner.scanCharacterFromSet(CharacterSet(string: "0123456789")) == Character("0"))
+        XCTAssert(scanner.atEnd == true)
+    }
+
+    func testScanSingleChar() {
+        let scanner = Scanner(string: "0A")
+        XCTAssert(scanner.scanCharacter(Character("0")) == true)
+        XCTAssert(scanner.scanCharacter(Character("X")) == false)
+    }
+
     func testScanSimpleStringNoSkip() {
         let scanner = Scanner(string: "Hello world")
         scanner.skippedCharacters = nil

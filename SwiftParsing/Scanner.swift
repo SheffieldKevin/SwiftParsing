@@ -171,7 +171,6 @@ public class Scanner {
         }
     }
 
-
     public func scanRegularExpression(string:String) throws -> String? {
         let expression = try RegularExpression(string)
         return scan(expression)
