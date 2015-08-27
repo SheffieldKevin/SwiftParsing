@@ -20,6 +20,8 @@ public enum ParseResult {
   case Ok(Any)
 }
 
+public typealias Converter = Any throws -> Any?
+
 // Value, NonValue, Fail, CriticalError
 // Success, Fail, Error
 
@@ -67,7 +69,7 @@ public class Element {
 
     public var strip:Bool = false
     public var flatten:Bool = false
-    public var converter:(Any -> Any?)?
+    public var converter:Converter?
 
     public final func parse(string:String) throws -> ParseResult {
         let scanner = Scanner(string: string)
@@ -90,7 +92,7 @@ public extension Element {
         return self
     }
 
-    func makeConverted(converter:Any -> Any?) -> Element {
+    func makeConverted(converter:Converter) -> Element {
         self.converter = converter
         return self
     }
@@ -307,7 +309,7 @@ public class Compound: Element {
         }
 
         if let converter = converter, let value = result.value {
-            if let value = converter(value) {
+            if let value = try converter(value) {
                 result = .Ok(value)
             }
             else {
