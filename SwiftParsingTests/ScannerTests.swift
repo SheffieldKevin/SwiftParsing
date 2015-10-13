@@ -102,9 +102,7 @@ class ScannerTests: XCTestCase {
         }
     }
 
-
     func testScanRegularExpression() {
-
         let scanner = Scanner(string: "Hello world")
         let result = try! scanner.scanRegularExpression("H[^\\s]+")
         XCTAssert(result == "Hello")
@@ -112,14 +110,26 @@ class ScannerTests: XCTestCase {
 
         let result2 = try! scanner.scanRegularExpression("w[^\\s]+")
         XCTAssert(result2 == "world")
-
     }
 
     func testScanNotRegularExpression() {
-
         let scanner = Scanner(string: "Hello world")
         let result = try! scanner.scanRegularExpression("[0-9]+")
         XCTAssert(result == nil)
-
     }
+
+    func testScanRegularExpression2() {
+        let scanner = Scanner(string: "$.foo.bar")
+        XCTAssertTrue(scanner.scanString("$"))
+        XCTAssertTrue(scanner.scanString("."))
+        XCTAssertEqual(try! scanner.scanRegularExpression("[a-z]+"), "foo")
+        XCTAssertTrue(scanner.scanString("."))
+        XCTAssertEqual(try! scanner.scanRegularExpression("[a-z]+"), "bar")
+    }
+
+    func testEmpty() {
+        let scanner = Scanner(string: "")
+        scanner.scanString("X")
+    }
+
 }

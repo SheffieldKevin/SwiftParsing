@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		452B30A81AC098C000920B6A /* SwiftUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45D772B51AC08474002AF6F7 /* SwiftUtilities.framework */; };
 		452B30AA1AC098E200920B6A /* SwiftUtilities.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 45D772B51AC08474002AF6F7 /* SwiftUtilities.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4533D5B01BCC8A0F000AE313 /* JSONPathParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4533D5AF1BCC8A0F000AE313 /* JSONPathParsingTests.swift */; settings = {ASSET_TAGS = (); }; };
 		456565501AB769E0004E982C /* SwiftParsing.h in Headers */ = {isa = PBXBuildFile; fileRef = 4565654F1AB769E0004E982C /* SwiftParsing.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		456565561AB769E0004E982C /* SwiftParsing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4565654B1AB769E0004E982C /* SwiftParsing.framework */; };
 		4565655D1AB769E0004E982C /* SwiftTransformParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4565655C1AB769E0004E982C /* SwiftTransformParsingTests.swift */; };
@@ -44,6 +45,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4533D5AF1BCC8A0F000AE313 /* JSONPathParsingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONPathParsingTests.swift; sourceTree = "<group>"; };
 		4565654B1AB769E0004E982C /* SwiftParsing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftParsing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4565654E1AB769E0004E982C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4565654F1AB769E0004E982C /* SwiftParsing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftParsing.h; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				4565655C1AB769E0004E982C /* SwiftTransformParsingTests.swift */,
+				4533D5AF1BCC8A0F000AE313 /* JSONPathParsingTests.swift */,
 				4588CF231B8D7C3600B1C301 /* ScannerTests.swift */,
 				4565655A1AB769E0004E982C /* Supporting Files */,
 			);
@@ -268,6 +271,7 @@
 			files = (
 				4588CF241B8D7C3600B1C301 /* ScannerTests.swift in Sources */,
 				4565655D1AB769E0004E982C /* SwiftTransformParsingTests.swift in Sources */,
+				4533D5B01BCC8A0F000AE313 /* JSONPathParsingTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
