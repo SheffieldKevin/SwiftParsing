@@ -6,7 +6,13 @@
 //  Copyright (c) 2015 schwa. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+@import Foundation;
+
+#if TARGET_OS_IPHONE
+@import UIKit;
+#else
+@import Cocoa;
+#endif
 
 //! Project version number for SwiftParsing.
 FOUNDATION_EXPORT double SwiftParsingVersionNumber;
