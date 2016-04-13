@@ -8,8 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		452B30A81AC098C000920B6A /* SwiftUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45D772B51AC08474002AF6F7 /* SwiftUtilities.framework */; };
-		452B30AA1AC098E200920B6A /* SwiftUtilities.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 45D772B51AC08474002AF6F7 /* SwiftUtilities.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		4533D5B01BCC8A0F000AE313 /* JSONPathParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4533D5AF1BCC8A0F000AE313 /* JSONPathParsingTests.swift */; settings = {ASSET_TAGS = (); }; };
+		4533D5B01BCC8A0F000AE313 /* JSONPathParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4533D5AF1BCC8A0F000AE313 /* JSONPathParsingTests.swift */; };
 		456565501AB769E0004E982C /* SwiftParsing.h in Headers */ = {isa = PBXBuildFile; fileRef = 4565654F1AB769E0004E982C /* SwiftParsing.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		456565561AB769E0004E982C /* SwiftParsing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4565654B1AB769E0004E982C /* SwiftParsing.framework */; };
 		4565655D1AB769E0004E982C /* SwiftTransformParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4565655C1AB769E0004E982C /* SwiftTransformParsingTests.swift */; };
@@ -708,6 +707,7 @@
 				6E17A0FB1BE9033C006021E8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6E17A0FF1BE9033C006021E8 /* Build configuration list for PBXNativeTarget "SwiftParsingTests" */ = {
 			isa = XCConfigurationList;
@@ -716,6 +716,7 @@
 				6E17A0FD1BE9033C006021E8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

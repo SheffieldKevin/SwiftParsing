@@ -18,7 +18,7 @@ extension Double {
             return number.doubleValue
         }
         else {
-            throw SwiftUtilities.Error.generic("Could not convert into double")
+            throw SwiftUtilities.Error.Generic("Could not convert into double")
         }
     }
 }

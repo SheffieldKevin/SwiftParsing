@@ -60,7 +60,7 @@ public class Scanner: GeneratorType {
 
     public func back() throws {
         guard location != string.startIndex else {
-            throw SwiftUtilities.Error.generic("Underflow")
+            throw SwiftUtilities.Error.Generic("Underflow")
         }
         location = location.advancedBy(-1)
     }
