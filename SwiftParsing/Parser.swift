@@ -8,6 +8,8 @@
 
 import Foundation
 
+import SwiftUtilities
+
 public struct Error: ErrorType {
     public let string:String
     public init(_ string:String) {
@@ -67,9 +69,9 @@ public class Element {
     public init() {
     }
 
-    public var strip:Bool = false
-    public var flatten:Bool = false
-    public var converter:Converter?
+    public var strip: Bool = false
+    public var flatten: Bool = false
+    public var converter: Converter?
 
     public final func parse(string:String) throws -> ParseResult {
         let scanner = Scanner(string: string)
@@ -92,7 +94,7 @@ public extension Element {
         return self
     }
 
-    func makeConverted(converter:Converter) -> Element {
+    func makeConverted(converter: Converter) -> Element {
         self.converter = converter
         return self
     }
@@ -102,21 +104,54 @@ public extension Element {
 // MARK: Literal
 
 public class Literal: Element {
-    public let value:String
+    public let value: String
 
-    public init(_ value:String) {
+    public init(_ value: String) {
         self.value = value
         super.init()
     }
 
     public override func parse(scanner:Scanner) throws -> ParseResult {
-        return scanner.scanString(value) ? .Ok(self.value) : .None
+        return scanner.scanString(value) ? .Ok(value) : .None
     }
 }
 
 extension Literal: CustomStringConvertible {
     public var description:String {
         return "Literal(\"\(value)\")"
+    }
+}
+
+// MARK: Literal
+
+public class Pattern: Element {
+    public var expression: RegularExpression!
+
+    public init(_ pattern: String) throws {
+        super.init()
+        self.expression = try RegularExpression(pattern)
+    }
+
+    public override func parse(scanner:Scanner) throws -> ParseResult {
+        guard let value = scanner.scan(expression) else {
+            return .None
+        }
+
+        if let converter = converter {
+            if let value = try converter(value) {
+                return .Ok(value)
+            }
+            else {
+                throw Error("Failed to convert")
+            }
+        }
+        return .Ok(value)
+    }
+}
+
+extension Pattern: CustomStringConvertible {
+    public var description:String {
+        return "Pattern(\"\(expression)\")"
     }
 }
 
@@ -201,7 +236,7 @@ public class RangeOf: Element {
                 return .Ok(Void)
             }
             else {
-                throw Error("Could not flatten")
+                throw Error("Could not flatten: \(compoundResult)")
             }
         }
 

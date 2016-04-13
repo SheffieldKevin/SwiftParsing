@@ -66,6 +66,9 @@ public class Scanner: GeneratorType {
     }
 
     public func skip() {
+        if atEnd {
+            return
+        }
         guard let skippedCharacters = skippedCharacters else {
             return
         }
@@ -154,12 +157,13 @@ public class Scanner: GeneratorType {
 //        return T(double)
 //    }
 
-    public func scan(expression:RegularExpression) -> String? {
+    public func scan(expression: RegularExpression) -> String? {
         return with() {
             skip()
             if let match = expression.match(remaining) {
                 let range = match.ranges[0]
-                location = range.endIndex
+                let offset = remaining.startIndex.distanceTo(range.endIndex)
+                location = location.advancedBy(offset)
                 return match.strings[0]
             }
             return nil
